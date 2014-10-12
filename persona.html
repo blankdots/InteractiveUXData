@@ -13,7 +13,7 @@
 
 <body>
 <header>
-	<h1 contenteditable="true">Personas Template</h1>
+	<h1 contenteditable="true" id="projectTitle">Personas Template</h1>
 </header>
 <section>
 	<h1 class="hidden">Personas Section (minimum 4 personas recommended)</h1>
@@ -27,12 +27,12 @@
 				<h4>Name: <span property="givenName" contenteditable="true" id="name">FirstName</span> <span property="familyName" contenteditable="true">LastName</span></h4>
 					<h5>Background</h5>
 					<ul contenteditable="true">
-						<li><strong>Date of Birth:</strong> <time property="birthDate" datetime="1990-10-23" contenteditable="true" id="age">1990</time></li>
-						<li><strong>Gender:</strong> <span property="gender" contenteditable="true">Male/Female</span></li>
-						<li property="location" typeof="Place"><strong>Location:</strong> <span property="name" contenteditable="true">Iasi, Romania</span></li>
-						<li property="worksFor" typeof="Organization"><strong>Work place:</strong> <span property="name" contenteditable="true">Organization Name</span>, <span property="jobTitle" contenteditable="true">Engineer</span></li>
-						<li property="alumniOf" typeof="EducationalOrganization"><strong>School:</strong>  <span property="name" contenteditable="true">Palo Alto High School</span> (if required)</li>
-						<li><strong>Technology Level:</strong> <span contenteditable="true">(if required)</span></li>
+						<li><strong>Date of Birth:</strong> <time property="birthDate" datetime="1990-10-23" contenteditable="true" id="birthyear">1990</time></li>
+						<li><strong>Gender:</strong> <span property="gender" contenteditable="true" id="gender">Male/Female</span></li>
+						<li property="location" typeof="Place"><strong>Location:</strong> <span property="name" contenteditable="true" id="location">Iasi, Romania</span></li>
+						<li property="worksFor" typeof="Organization"><strong>Work place:</strong> <span property="name" contenteditable="true" id="workPlace">Organization Name</span>, <span property="jobTitle" contenteditable="true" id="job">Engineer</span></li>
+						<li property="alumniOf" typeof="EducationalOrganization"><strong>School:</strong>  <span property="name" contenteditable="true" id="school">Palo Alto High School</span> (if required)</li>
+						<li><strong>Technology Level:</strong> <span contenteditable="true" id="techLevel">(if required)</span></li>
 					</ul>
 			</div>
 		</div>
@@ -41,7 +41,7 @@
 				<div class="leftGroup">
 					<h5>Main Points</h5>
 					<p contenteditable="true">Some points extracted from detailed description, that are specific for this persona and the reason we chose it. For example <strong>(phrases are recommended not just simple list of points)</strong>:</p>
-					<ul contenteditable="true">
+					<ul contenteditable="true" id="mainPoints">
 						<li>Experience with certain products;</li>
 						<li>Dislikes about certain aspects;</li>
 						<li>Disabilities relevant to our research;</li>
@@ -54,15 +54,15 @@
 					<h5>Goals</h5>
 					<p contenteditable="true">Goals are the reasons users perform tasks, not the tasks.</p>
 					<ul contenteditable="true">
-						<li>Practical Goals:</li>
-						<li>Personal Goals:</li>
-						<li>Business Goals:</li>
+						<li>Practical Goals:<span id="practicalGoals"></span></li>
+						<li>Personal Goals:<span id="personalGoals"></span></li>
+						<li>Business Goals:<span id="businessGoals"></span></li>
 					</ul>
 				</div>
 				<div class="leftGroup">
 					<h5>Frustrations and Pain Points</h5>
 					<p contenteditable="true">Some of the difficulties the user has with the product.</p>
-					<ul contenteditable="true">
+					<ul contenteditable="true" id="frustrations">
 						<li>UI, Interaction, User Experience;</li>
 						<li>Dislikes relevant to the research;</li>
 						<li>Disabilities;</li>
@@ -74,7 +74,7 @@
 			</div>
 			<div property="description" class="detailsRight" >
 				<h5>Detailed Description</h5>
-				<div contenteditable="true">
+				<div contenteditable="true" id="description">
 				<p><strong>"A persona is a user archetype you can use to help guide decisions about product features, navigation, interactions, and even visual design." (Kim Goodwin, Cooper.com)</strong></p>
 				<p>Regarding the persona type: Primary/Secondary/Negative/Supplemental/Served/Customer, these categories of personas are defined in <span typeof="Book"><span property="name"><a href="http://www.amazon.com/About-Face-Essentials-Interaction-Design/dp/0470084111/">About Face 3.0</a></span> by <span property="author">Alan Cooper</span></span>.</p>
 				<p>A few personal details regarding relationship to the application domain in which we will use the personas, work life, social life, teamwork etc.</p>
@@ -104,7 +104,7 @@
 		</div>
 		<div class="personaScenarios">
 			<h5>Scenarios</h5>
-			<p contenteditable="true">Develop and list a few scenarios in which your product is used (when, how and with whom it is used) by this persona. In developing these scenarios consider the Main points, Goals and Frustrations &amp; Pain Points. Describe the scenario in a few phrases or images and also establish a few end points. </p>
+			<p contenteditable="true" id="scenarios">Develop and list a few scenarios in which your product is used (when, how and with whom it is used) by this persona. In developing these scenarios consider the Main points, Goals and Frustrations &amp; Pain Points. Describe the scenario in a few phrases or images and also establish a few end points. </p>
 		</div>
 		<div class="otherDetails">
 			<h5>Other Details</h5>
@@ -116,7 +116,7 @@
 <footer id="footer">
 	<span id="license"><a href="http://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" /></a></span>
 </footer>
-<script src="avatar.js" type="text/javascript" charset="utf-8" async defer></script>
-<script src="db.js" type="text/javascript" charset="utf-8" async defer></script>
+<script src="js/avatar.js" type="text/javascript" charset="utf-8" async defer></script>
+<script src="js/db.js" type="text/javascript" charset="utf-8" async defer></script>
 </body>
 </html>

@@ -41,26 +41,45 @@ request.onupgradeneeded = function (event) {
     // Create an objectStore for this database
     var objectStore = db.createObjectStore("personaStore", { keyPath: "projectTitle"});
     objectStore.createIndex("personaType", "personaType", { unique: false });
-    objectStore.createIndex("avatar", "avatar", { unique: false });
+    objectStore.createIndex("avatar", "avatar", { unique: true });
     objectStore.createIndex("name", "name", { unique: false });
-    objectStore.createIndex("age", "age", { unique: true });
+    objectStore.createIndex("age", "age", { unique: false });
     objectStore.createIndex("gender", "gender", { unique: false });
-    objectStore.createIndex("location", "location", { unique: true });
+    objectStore.createIndex("location", "location", { unique: false });
     objectStore.createIndex("work", "work", { unique: false });
-    objectStore.createIndex("school", "school", { unique: true });
+    objectStore.createIndex("school", "school", { unique: false });
     objectStore.createIndex("techLevel", "techLevel", { unique: false });
-    objectStore.createIndex("practicalGoals", "practicalGoals", { unique: true });
-    objectStore.createIndex("personalGoals", "personalGoals", { unique: true });
-    objectStore.createIndex("businessGoals", "businessGoals", { unique: true });
-    objectStore.createIndex("frustrations", "frustrations", { unique: true });
+    objectStore.createIndex("practicalGoals", "practicalGoals", { unique: false });
+    objectStore.createIndex("personalGoals", "personalGoals", { unique: false });
+    objectStore.createIndex("businessGoals", "businessGoals", { unique: false });
+    objectStore.createIndex("frustrations", "frustrations", { unique: false });
     objectStore.createIndex("description", "description", { unique: true });
-    objectStore.createIndex("mainPoints", "mainPoints", { unique: true });
-    objectStore.createIndex("scenarios", "scenarios", { unique: true });
+    objectStore.createIndex("mainPoints", "mainPoints", { unique: false });
+    objectStore.createIndex("scenarios", "scenarios", { unique: false });
 };
 
-function addPersonasDB (personaType, name, age) {
+function addPersonasDB (projectTitle, personaType, name, birthyear, gender, location, job, school, techLevel, practicalGoals, businessGoals, personalGoals, frustrations, description, mainPoints, scenarios, avatar) {
     console.log("persona arguments:", arguments);
-    var obj = { projectTitle: name, personaType: personaType, name: name, age: age };
+    var obj = { 
+      projectTitle: projectTitle, 
+      personaType: personaType, 
+      name: name, 
+      birthyear: birthyear,
+      gender: gender,
+      location: location,
+      job: job,
+      school: school,
+      techLevel: techLevel,
+      practicalGoals: practicalGoals,
+      personalGoals: personalGoals,
+      businessGoals: businessGoals,
+      frustrations: frustrations,
+      description: description ,
+      mainPoints: mainPoints,
+      scenarios: scenarios
+    };
+     if (typeof avatar != 'undefined')
+      obj.avatar = avatar;
     // open a read/write db transaction, ready for adding the data
     var transaction = db.transaction(["personaStore"], "readwrite");
     // Note: Older experimental implementations use the deprecated constant IDBTransaction.READ_WRITE instead of "readwrite".
@@ -101,21 +120,36 @@ addData.addEventListener("click", addToLocalStore, false);
 
 function addToLocalStore (e) {
       console.log("add ...");
-      var personaType = document.getElementById("personaType").textContent;
-      var name = document.getElementById("name").textContent;
-      var age = document.getElementById("age").textContent;
-      console.log(personaType + ' ' + name + ' ' + age);
-      /*if (year != '') {
+      var projectTitle = document.getElementById("projectTitle").textContent,
+          personaType = document.getElementById("personaType").textContent,
+          name = document.getElementById("name").textContent,
+          birthyear = document.getElementById("birthyear").textContent,
+          gender = document.getElementById("gender").textContent,
+          location = document.getElementById("location").textContent,
+          school = document.getElementById("location").textContent,
+          job = document.getElementById("job").textContent,
+          techLevel = document.getElementById("techLevel").textContent,
+          practicalGoals = document.getElementById("practicalGoals").textContent,
+          businessGoals = document.getElementById("businessGoals").textContent,
+          personalGoals = document.getElementById("personalGoals").textContent,
+          frustrations = document.getElementById("frustrations").textContent,
+          description = document.getElementById("description").textContent,
+          mainPoints = document.getElementById("mainPoints").textContent,
+          scenarios = document.getElementById("scenarios").textContent,
+          avatar = imageData;
+
+      /*console.log(personaType + ' ' + name + ' ' + age);*/
+      if (birthyear != '') {
         // Better use Number.isInteger if the engine has EcmaScript 6
-        if (isNaN(year))  {
+        if (isNaN(birthyear))  {
           displayActionFailure("Invalid year");
           return;
         }
-        year = Number(year);
+        birthyear = Number(birthyear);
       } else {
-        year = null;
+        birthyear = null;
       }
-*/
+
       /*var file_input = $('#pub-file');
       var selected_file = file_input.get(0).files[0];
       console.log("selected_file:", selected_file);
@@ -131,6 +165,6 @@ function addToLocalStore (e) {
       } else {
         addPublication(biblioid, title, year);
       }*/
-      addPersonasDB(personaType, name, age);
+      addPersonasDB(projectTitle, personaType, name, birthyear, gender, location, job, school, techLevel, practicalGoals, businessGoals, personalGoals, frustrations, description, mainPoints, scenarios, avatar);
       e.preventDefault();
     }
