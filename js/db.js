@@ -110,7 +110,7 @@ function addPersonasDB (projectTitle, personaType, name, birthyear, gender, loca
       //displayPubList(objectStore);
     };
     req.onerror = function() {
-      console.error("add operation error", this.error);
+      console.error("Add operation error", this.error);
       displayActionFailure(this.error);
     };
     
@@ -133,14 +133,13 @@ function clearPersonasDB(store_name) {
 
 var addData     = document.getElementById('addButton'),
     clearData   = document.getElementById('clearButton'),
-    dbContent   = document.getElementById('dbContent'),
     displayData = document.getElementById('displayButton');
 
-addData.addEventListener("click", addToLocalStoreFunct, false);
+addData.addEventListener("click", addPersonaToLocalStore, false);
 clearData.addEventListener("click", clearPersonasDB, false);
-displayData.addEventListener("click", displayPersonaStore, false);
+displayData.addEventListener("click", displayPersonaDB, false);
 
-function addToLocalStoreFunct (e) {
+function addPersonaToLocalStore (e) {
   console.log("add ...");
   var projectTitle    = document.getElementById("projectTitle").textContent,
       personaType     = document.getElementById("personaType").textContent,
@@ -158,9 +157,8 @@ function addToLocalStoreFunct (e) {
       description     = document.getElementById("description").textContent,
       mainPoints      = document.getElementById("mainPoints").textContent,
       scenarios       = document.getElementById("scenarios").textContent,
-      avatar          = imageData; // see avatar.js for the meaning of imageData
+      avatar          = imageData; // see avatar.js for the meaning of imageData variable
 
-  /*console.log(personaType + ' ' + name + ' ' + age);*/
   if (birthyear != '') {
     // Better use Number.isInteger if the engine has EcmaScript 6
     if (birthyear.isInteger)  {
@@ -172,20 +170,24 @@ function addToLocalStoreFunct (e) {
     birthyear = null;
   }
   addPersonasDB(projectTitle, personaType, name, birthyear, gender, location, job, school, techLevel, practicalGoals, businessGoals, personalGoals, frustrations, description, mainPoints, scenarios, avatar);
+
+/*  if (document.getElementById("avatar").hasChildNodes()) {
+    document.getElementById("avatar").removeChild(document.getElementById("avatar").firstChild);
+  }
+  NEED FUNCT to revert to basic template
+  */
+
   e.preventDefault();
 }
 
-function displayPersonaStore() {
+function displayPersonaDB() {
   console.log("displayPersonaStore");
   var transaction = db.transaction([DB_STORE], "readonly"),
       objectStore = transaction.objectStore(DB_STORE),
       req         = objectStore.count();
-
-  /*if (typeof store == 'undefined')
-    store = getObjectStore(DB_NAME, 'readonly');
-
-  var req;
-  req = store.count();*/
+  while (document.getElementById('dbContent').firstChild) {
+    document.getElementById('dbContent').removeChild(document.getElementById('dbContent').firstChild);
+  }
   // Requests are executed in the order in which they were made against the
   // transaction, and their results are returned in the same order.
   // Thus the count text below will be displayed before the actual pub list
@@ -194,7 +196,7 @@ function displayPersonaStore() {
     console.log(evt.target.result);
   };
   req.onerror = function(evt) {
-    console.error("add error", this.error);
+    console.error("display error", this.error);
     displayActionFailure(this.error);
   };
 
@@ -206,7 +208,13 @@ function displayPersonaStore() {
     // If the cursor is pointing at something, ask for the data
     if (cursor) {
       console.log("displayPersona cursor:", cursor);
-      console.log(cursor.value);
+      //console.log(cursor.value);
+      req = objectStore.get(cursor.key);
+      req.onsuccess = function (evt) {
+        var value = evt.target.result;
+        console.log(value);
+        displayPersona(value.projectTitle, value.avatar);
+      };
 
       // Move on to the next object in store
       cursor.continue();
@@ -217,6 +225,95 @@ function displayPersonaStore() {
       console.log("No more entries");
     }
   };
+}
+
+function displayPersona (projectTitle, avatar) {
+  var dbContent   = document.getElementById('dbContent'),
+      article = document.createElement("article"),
+      h3 = document.createElement("h3"),
+      a = document.createElement("a"),
+      img = document.createElement("img");
+
+  dbContent.appendChild(article);
+  article.appendChild(h3);
+  article.appendChild(a);
+  article.appendChild(img);
+  h3.textContent = projectTitle;
+  a.textContent = projectTitle;
+  a.href = "#";
+  a.id = projectTitle;
+  if (avatar !== "") {
+      img.src = avatar;
+  }
+  else {
+    article.removeChild(img);
+  }
+
+  //a.addEventListener("keypress", retrievePersona(projectTitle), false);
+  /*if (value.year != null)
+      list_item.append(' - ' + value.year);
+
+  if (value.hasOwnProperty('avatar') &&
+      typeof value.avatar != 'undefined') {
+  } else {
+    list_item.append(" / No attached file");
+  }*/
+}
+
+document.querySelector('#dbContent').addEventListener('click', function(event) {
+  if (event.target.tagName.toLowerCase() === 'a') {
+    retrievePersona(event.target.id);
+  }
+});
+
+function retrievePersona (projectTitle) {
+  var transaction = db.transaction([DB_STORE], "readonly"),
+      objectStore = transaction.objectStore(DB_STORE),
+      req         = objectStore.count(),
+      img         = document.createElement("img");
+
+  // Requests are executed in the order in which they were made against the
+  // transaction, and their results are returned in the same order.
+  // Thus the count text below will be displayed before the actual pub list
+  // (not that it is algorithmically important in this case).
+  req.onsuccess = function(evt) {
+    console.log(evt.target.result);
+  };
+  req.onerror = function(evt) {
+    console.error("retrieve error", this.error);
+    displayActionFailure(this.error);
+  };
+
+  req = objectStore.openCursor();
+  req.onsuccess = function(evt) {
+    var cursor = evt.target.result;
+
+    // If the cursor is pointing at something, ask for the data
+    if (cursor) {
+      console.log("retrive cursor:", cursor);
+      //console.log(cursor.value);
+      req = objectStore.get(projectTitle);
+      req.onsuccess = function (evt) {
+        var value = evt.target.result;
+        console.log(value);
+          document.getElementById("projectTitle").textContent = value.projectTitle + "ceva";
+          console.log(value.avatar);
+          if (value.avatar !== "") {
+          avatar.removeChild(avatar.firstChild);
+          avatar.appendChild(img);
+          img.src = value.avatar;
+        }
+      };
+
+      // Move on to the next object in store
+ {
+
+ }
+    } else {
+      console.log("No such entries");
+    }
+  };
+
 }
 
 function displayActionSuccess(msg) {
