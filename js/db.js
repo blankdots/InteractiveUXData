@@ -21,8 +21,12 @@ if (!window.indexedDB) {
     console.log('Your browser doesn\'t support a stable version of IndexedDB. Such and such feature will not be available.');
 }
 
+const DB_NAME     = 'personaDB';
+const DB_STORE    = 'personaStoreData';
+const DB_VERSION  = 2; 
+
 // Create/open database
-var request = indexedDB.open('personaDB', 1);
+var request = indexedDB.open(DB_NAME, DB_VERSION);
 
 request.onsuccess = function (event) {
     console.log('Success creating/accessing IndexedDB database.');
@@ -30,20 +34,18 @@ request.onsuccess = function (event) {
 
     db.onerror = function (event) {
         console.log('Error creating/accessing IndexedDB database.');
-    };
-    
+    };  
 }
 
-// For future use. Currently only in latest Firefox versions
 request.onupgradeneeded = function (event) {
     var db = event.target.result;
 
     // Create an objectStore for this database
-    var objectStore = db.createObjectStore("personaStore", { keyPath: "projectTitle"});
+    var objectStore = db.createObjectStore(DB_STORE, { keyPath: "projectTitle"});
     objectStore.createIndex("personaType", "personaType", { unique: false });
-    objectStore.createIndex("avatar", "avatar", { unique: true });
+    objectStore.createIndex("avatar", "avatar", { unique: false });
     objectStore.createIndex("name", "name", { unique: false });
-    objectStore.createIndex("age", "age", { unique: false });
+    objectStore.createIndex("birthyear", "birthyear", { unique: false });
     objectStore.createIndex("gender", "gender", { unique: false });
     objectStore.createIndex("location", "location", { unique: false });
     objectStore.createIndex("work", "work", { unique: false });
@@ -53,7 +55,7 @@ request.onupgradeneeded = function (event) {
     objectStore.createIndex("personalGoals", "personalGoals", { unique: false });
     objectStore.createIndex("businessGoals", "businessGoals", { unique: false });
     objectStore.createIndex("frustrations", "frustrations", { unique: false });
-    objectStore.createIndex("description", "description", { unique: true });
+    objectStore.createIndex("description", "description", { unique: false });
     objectStore.createIndex("mainPoints", "mainPoints", { unique: false });
     objectStore.createIndex("scenarios", "scenarios", { unique: false });
 };
@@ -81,7 +83,7 @@ function addPersonasDB (projectTitle, personaType, name, birthyear, gender, loca
      if (typeof avatar != 'undefined')
       obj.avatar = avatar;
     // open a read/write db transaction, ready for adding the data
-    var transaction = db.transaction(["personaStore"], "readwrite");
+    var transaction = db.transaction([DB_STORE], "readwrite");
     // Note: Older experimental implementations use the deprecated constant IDBTransaction.READ_WRITE instead of "readwrite".
     // In case you want to support such an implementation, you can write: 
     // var transaction = db.transaction(["customers"], IDBTransaction.READ_WRITE);
@@ -93,78 +95,143 @@ function addPersonasDB (projectTitle, personaType, name, birthyear, gender, loca
     transaction.onerror = function(event) {
      console.log('Transaction not opened due to error. Duplicate items not allowed.');
     };
-    var objectStore = transaction.objectStore("personaStore");
+    var objectStore = transaction.objectStore(DB_STORE);
     var req;
     try {
       req = objectStore.add(obj);
     } catch (e) {
       if (e.name == 'DataCloneError')
-        displayActionFailure("This engine doesn't know how to clone a Blob, " +
-                             "use Firefox");
+        displayActionFailure("This engine doesn't know how to clone a Blob, " + "use Firefox");
       throw e;
     }
     req.onsuccess = function (evt) {
       console.log("Insertion in DB successful");
-      //displayActionSuccess();
+      displayActionSuccess();
       //displayPubList(objectStore);
     };
     req.onerror = function() {
-      console.error("addPublication error", this.error);
-      //displayActionFailure(this.error);
+      console.error("add operation error", this.error);
+      displayActionFailure(this.error);
     };
     
 }
-var addData = document.getElementById("addButton");
 
-addData.addEventListener("click", addToLocalStore, false);
+function clearPersonasDB(store_name) {
+  var transaction = db.transaction([DB_STORE], "readwrite"),
+      objectStore = transaction.objectStore(DB_STORE),
+      req         = objectStore.clear();
 
-function addToLocalStore (e) {
-      console.log("add ...");
-      var projectTitle = document.getElementById("projectTitle").textContent,
-          personaType = document.getElementById("personaType").textContent,
-          name = document.getElementById("name").textContent,
-          birthyear = document.getElementById("birthyear").textContent,
-          gender = document.getElementById("gender").textContent,
-          location = document.getElementById("location").textContent,
-          school = document.getElementById("location").textContent,
-          job = document.getElementById("job").textContent,
-          techLevel = document.getElementById("techLevel").textContent,
-          practicalGoals = document.getElementById("practicalGoals").textContent,
-          businessGoals = document.getElementById("businessGoals").textContent,
-          personalGoals = document.getElementById("personalGoals").textContent,
-          frustrations = document.getElementById("frustrations").textContent,
-          description = document.getElementById("description").textContent,
-          mainPoints = document.getElementById("mainPoints").textContent,
-          scenarios = document.getElementById("scenarios").textContent,
-          avatar = imageData;
+  req.onsuccess = function(evt) {
+    displayActionSuccess("Store cleared");
+    //displayPubList(objectStore);
+  };
+  req.onerror = function (evt) {
+    console.error("clearObjectStore:", evt.target.errorCode);
+    displayActionFailure(this.error);
+  };
+}
 
-      /*console.log(personaType + ' ' + name + ' ' + age);*/
-      if (birthyear != '') {
-        // Better use Number.isInteger if the engine has EcmaScript 6
-        if (isNaN(birthyear))  {
-          displayActionFailure("Invalid year");
-          return;
-        }
-        birthyear = Number(birthyear);
-      } else {
-        birthyear = null;
-      }
+var addData     = document.getElementById('addButton'),
+    clearData   = document.getElementById('clearButton'),
+    dbContent   = document.getElementById('dbContent'),
+    displayData = document.getElementById('displayButton');
 
-      /*var file_input = $('#pub-file');
-      var selected_file = file_input.get(0).files[0];
-      console.log("selected_file:", selected_file);
-      // Keeping a reference on how to reset the file input in the UI once we
-      // have its value, but instead of doing that we rather use a "reset" type
-      // input in the HTML form.
-      //file_input.val(null);
-      var file_url = $('#pub-file-url').val();
-      if (selected_file) {
-        addPublication(biblioid, title, year, selected_file);
-      } else if (file_url) {
-        addPublicationFromUrl(biblioid, title, year, file_url);
-      } else {
-        addPublication(biblioid, title, year);
-      }*/
-      addPersonasDB(projectTitle, personaType, name, birthyear, gender, location, job, school, techLevel, practicalGoals, businessGoals, personalGoals, frustrations, description, mainPoints, scenarios, avatar);
-      e.preventDefault();
+addData.addEventListener("click", addToLocalStoreFunct, false);
+clearData.addEventListener("click", clearPersonasDB, false);
+displayData.addEventListener("click", displayPersonaStore, false);
+
+function addToLocalStoreFunct (e) {
+  console.log("add ...");
+  var projectTitle    = document.getElementById("projectTitle").textContent,
+      personaType     = document.getElementById("personaType").textContent,
+      name            = document.getElementById("name").textContent,
+      birthyear       = document.getElementById("birthyear").textContent,
+      gender          = document.getElementById("gender").textContent,
+      location        = document.getElementById("location").textContent,
+      school          = document.getElementById("location").textContent,
+      job             = document.getElementById("job").textContent,
+      techLevel       = document.getElementById("techLevel").textContent,
+      practicalGoals  = document.getElementById("practicalGoals").textContent,
+      businessGoals   = document.getElementById("businessGoals").textContent,
+      personalGoals   = document.getElementById("personalGoals").textContent,
+      frustrations    = document.getElementById("frustrations").textContent,
+      description     = document.getElementById("description").textContent,
+      mainPoints      = document.getElementById("mainPoints").textContent,
+      scenarios       = document.getElementById("scenarios").textContent,
+      avatar          = imageData; // see avatar.js for the meaning of imageData
+
+  /*console.log(personaType + ' ' + name + ' ' + age);*/
+  if (birthyear != '') {
+    // Better use Number.isInteger if the engine has EcmaScript 6
+    if (birthyear.isInteger)  {
+      displayActionFailure("Invalid year");
+      return;
     }
+    birthyear = Number(birthyear);
+  } else {
+    birthyear = null;
+  }
+  addPersonasDB(projectTitle, personaType, name, birthyear, gender, location, job, school, techLevel, practicalGoals, businessGoals, personalGoals, frustrations, description, mainPoints, scenarios, avatar);
+  e.preventDefault();
+}
+
+function displayPersonaStore() {
+  console.log("displayPersonaStore");
+  var transaction = db.transaction([DB_STORE], "readonly"),
+      objectStore = transaction.objectStore(DB_STORE),
+      req         = objectStore.count();
+
+  /*if (typeof store == 'undefined')
+    store = getObjectStore(DB_NAME, 'readonly');
+
+  var req;
+  req = store.count();*/
+  // Requests are executed in the order in which they were made against the
+  // transaction, and their results are returned in the same order.
+  // Thus the count text below will be displayed before the actual pub list
+  // (not that it is algorithmically important in this case).
+  req.onsuccess = function(evt) {
+    console.log(evt.target.result);
+  };
+  req.onerror = function(evt) {
+    console.error("add error", this.error);
+    displayActionFailure(this.error);
+  };
+
+  var i = 0;
+  req = objectStore.openCursor();
+  req.onsuccess = function(evt) {
+    var cursor = evt.target.result;
+
+    // If the cursor is pointing at something, ask for the data
+    if (cursor) {
+      console.log("displayPersona cursor:", cursor);
+      console.log(cursor.value);
+
+      // Move on to the next object in store
+      cursor.continue();
+
+      // This counter serves only to create distinct ids
+      i++;
+    } else {
+      console.log("No more entries");
+    }
+  };
+}
+
+function displayActionSuccess(msg) {
+    msg = typeof msg != 'undefined' ? "Success: " + msg : "Success";
+    console.log(msg);
+}
+function displayActionFailure(msg) {
+  msg = typeof msg != 'undefined' ? "Failure: " + msg : "Failure";
+  console.error(msg);
+}
+function resetActionStatus() {
+  console.log("resetActionStatus ...");
+
+  console.log("resetActionStatus DONE");
+}
+function addEventListeners() {
+  console.log("addEventListeners");
+}
