@@ -17,10 +17,9 @@ body{
 }
 
 header {padding:5px; background-color: #34495e; } 
-header h1 { margin:5px 10px 0px 10px; padding:0; color: #DFECE6; font-size:1.8em;}
-header #logo {float:right; margin: 0;}
-article.usabilityTest {background-color: #fff; border:solid 1px #493736; float:left; margin:5px; width:50%; }
-article.usabilityTestResults {background-color: #fff; border:solid 1px #493736; float:left; margin:5px 10px; width:48%; }
+header h1 { margin:2px; padding:0; color: #DFECE6; font-size:1.8em;}
+article.usabilityTest {background-color: #fff; border:solid 1px #493736; float:left; margin:0; width:50%; }
+article.usabilityTestResults {background-color: #fff; border:solid 1px #493736; float:left; margin:0; width:50%; }
 .usabilityTestInfo figure {margin:0; padding: 0;}
 .usabilityTestInfo, .usabilityTestResultsInfo {border-bottom:solid 1px #493736; padding:5px; overflow: hidden;}
 .usabilityTestInfo img {float:left; }
@@ -40,10 +39,10 @@ article.usabilityTestResults {background-color: #fff; border:solid 1px #493736; 
 .usabilityTestScenarios, .usabilityTestObjectives {border-bottom:solid 1px #493736;}
 
 .testTable {border-collapse:collapse; width:100%;}
-.testTable .testTableTh {border:1px solid #ccc; padding:3px; background-color:#ddd; text-align:center;}
-.testTable .testTableTd {border:1px solid #ccc; padding:3px;}
+.testTable .testTableTh {border:1px solid #bdc3c7; padding:3px; background-color:#ddd; text-align:center;}
+.testTable .testTableTd {border:1px solid #bdc3c7; padding:3px;}
 
-article.persona {background-color: #fff; border:solid 1px #493736; float:left; margin:5px; width:50%; }
+article.persona {background-color: #fff; border-right:solid 1px #493736; float:left; margin:0; width:50%; }
 .personaInfo figure {margin:0; padding: 0;}
 .personaInfo {border-bottom:solid 1px #493736; padding:5px; overflow: hidden;}
 .personaInfo img {float:left; }
@@ -63,7 +62,7 @@ article.persona {background-color: #fff; border:solid 1px #493736; float:left; m
 .personaScenarios {border-bottom:solid 1px #493736;}
 
 #avatar { 
-	border: 5px dashed #ccc; 
+	border: 5px dashed #bdc3c7; 
 	width: 150px; 
 	min-height: 150px;
 	-moz-border-radius: 75px; 
@@ -72,7 +71,7 @@ article.persona {background-color: #fff; border:solid 1px #493736; float:left; m
 	float:left;
 	overflow: hidden;
 }
-#avatar.hover { border: 5px dashed #0c0; }
+#avatar.hover { border: 5px dashed #2ecc71; }
 #avatar img { 
 	display: block; 
 	margin: 0 auto; 
@@ -114,7 +113,7 @@ footer {clear:both; margin:5px 10px; padding:0;}
 	header {margin: 0;}
 	header #logo {display: none;}
 	article.usabilityTest, article.usabilityTestResults {width:99%; margin:10px 2px;} 
-	.usabilityTestInfo h3, .usabilityTestInfo .usabilityTestBackground h4, .usabilityTestInfo .usabilityTestBackground h5, .usabilityTestObjectives h5,.usabilityTestDetails h4, .usabilityTestDetails h5, .usabilityTestScenarios h5, .otherDetails h5, .usabilityTestResults h5, .usabilityTestResults h4, .usabilityTestResults h3 {margin:0 0 2px; padding:5px; background-color: #ccc; color: #111; 
+	.usabilityTestInfo h3, .usabilityTestInfo .usabilityTestBackground h4, .usabilityTestInfo .usabilityTestBackground h5, .usabilityTestObjectives h5,.usabilityTestDetails h4, .usabilityTestDetails h5, .usabilityTestScenarios h5, .otherDetails h5, .usabilityTestResults h5, .usabilityTestResults h4, .usabilityTestResults h3 {margin:0 0 2px; padding:5px; background-color: #bdc3c7; color: #111; 
 	-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
 }
 @media screen and (max-width:1200px){
@@ -137,7 +136,7 @@ footer {clear:both; margin:5px 10px; padding:0;}
 	header {margin: 0;}
 	header #logo {display: none;}
 	article.persona {width:99%; margin:10px 2px;} 
-	.personaInfo h3, .personaInfo .personaBackground h4, .personaInfo .personaBackground h5, .personaDetails h4, .personaDetails h5, .personaScenarios h5, .otherDetails h5 {margin:0 0 5px; padding:5px; background-color: #ccc; color: #111; 
+	.personaInfo h3, .personaInfo .personaBackground h4, .personaInfo .personaBackground h5, .personaDetails h4, .personaDetails h5, .personaScenarios h5, .otherDetails h5 {margin:0 0 5px; padding:5px; background-color: #bdc3c7; color: #111; 
 	-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
 	.personaDetails .detailsLeft {width:38%; float:left; margin-right:5px;}
 	.personaDetails .detailsRight {width:61%; float: right; }

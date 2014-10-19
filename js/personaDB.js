@@ -1,29 +1,17 @@
 // IndexedDB
-// In the following line, you should include the prefixes of implementations you want to test.
 window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-// DON'T use "var indexedDB = ..." if you're not in a function.
-// Moreover, you may need references to some window.IDB* objects:
+
 window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-// (Mozilla has never prefixed these objects, so we don't need window.mozIDB*)
-    dbVersion = 1;
-
-/* 
-    Note: The recommended way to do this is assigning it to window.indexedDB,
-    to avoid potential issues in the global scope when web browsers start 
-    removing prefixes in their implementations.
-
-    You can assign it to a variable, like var indexedDB… but then you have 
-    to make sure that the code is contained within a function.
-*/
-
-if (!window.indexedDB) {
-    console.log('Your browser doesn\'t support a stable version of IndexedDB. Such and such feature will not be available.');
-}
 
 const DB_NAME     = 'personaDB';
 const DB_STORE    = 'personaStoreData';
 const DB_VERSION  = 2; 
+
+
+if (!window.indexedDB) {
+    console.log('Your browser doesn\'t support a stable version of IndexedDB. Such and such feature will not be available.');
+}
 
 // Create/open database
 var request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -157,12 +145,12 @@ function addPersonaToLocalStore (e) {
       description     = document.getElementById("description").textContent,
       mainPoints      = document.getElementById("mainPoints").textContent,
       scenarios       = document.getElementById("scenarios").textContent,
-      avatar          = imageData; // see avatar.js for the meaning of imageData variable
+      avatar          = imageData; // see personaAvatar.js for the meaning of imageData variable
 
   if (birthyear != '') {
     // Better use Number.isInteger if the engine has EcmaScript 6
     if (birthyear.isInteger)  {
-      displayActionFailure("Invalid year");
+      displayActionFailure("Invalid year.");
       return;
     }
     birthyear = Number(birthyear);
@@ -207,7 +195,7 @@ function displayPersonaDB() {
 
     // If the cursor is pointing at something, ask for the data
     if (cursor) {
-      console.log("displayPersona cursor:", cursor);
+      console.log("DisplayPersona cursor:", cursor);
       //console.log(cursor.value);
       req = objectStore.get(cursor.key);
       req.onsuccess = function (evt) {
@@ -296,9 +284,9 @@ function retrievePersona (projectTitle) {
       req.onsuccess = function (evt) {
         var value = evt.target.result;
         console.log(value);
-          document.getElementById("projectTitle").textContent = value.projectTitle + "ceva";
-          console.log(value.avatar);
-          if (value.avatar !== "") {
+        document.getElementById("projectTitle").textContent = value.projectTitle + "ceva";
+        console.log(value.avatar);
+        if (value.avatar !== "") {
           avatar.removeChild(avatar.firstChild);
           avatar.appendChild(img);
           img.src = value.avatar;
