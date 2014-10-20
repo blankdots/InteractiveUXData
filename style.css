@@ -19,7 +19,7 @@ body{
 header {padding:5px; background-color: #34495e; } 
 header h1 { margin:2px; padding:0; color: #DFECE6; font-size:1.8em;}
 article.usabilityTest {background-color: #fff; border-right:solid 1px #493736; float:left; margin:0; width:50%; }
-article.usabilityTestResults {background-color: #fff; border-right:solid 1px #493736; float:left; margin:0; width:50%; }
+article.usabilityTestResults {background-color: #fff; border-right:solid 1px #493736; border-right:solid 1px #493736; float:left; margin:0; width:50%; }
 .usabilityTestInfo figure {margin:0; padding: 0;}
 .usabilityTestInfo, .usabilityTestResultsInfo {border-bottom:solid 1px #493736; padding:5px; overflow: hidden;}
 .usabilityTestInfo img {float:left; }
