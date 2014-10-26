@@ -113,7 +113,7 @@ article.persona {
 	-webkit-border-radius: 75px; 
 	border-radius: 75px;
 }
-#avatar span { margin:50px 30px 0; font-size: 14px; font-weight: bold; text-align: center; width: 90px; position: absolute;}
+#avatar span { margin:55px 30px 0; font-size: 14px; font-weight: bold; text-align: center; width: 90px; position: absolute;}
 progress { width: 100%; }
 progress:after { content: '%'; }
 .fail { background: #c00; padding: 2px; color: #fff; }
@@ -123,10 +123,10 @@ footer {clear:both; margin:5px 10px; padding:0;}
 
 #usabilityTestGreeting, #usabilityTestConsent {margin:0 auto; width:70%;}
 
-[contenteditable="true"] {margin: 1px; position: relative;}
+[contenteditable="true"], .editor {margin: 1px; position: relative;}
 
-[contenteditable="true"]:hover { border:dashed 1px #2ecc71; margin: 0;}
-[contenteditable="true"]:hover::after { 
+[contenteditable="true"]:hover, .editor:hover { border:dashed 1px #2ecc71; margin: 0;}
+[contenteditable="true"]:hover::after, .editor:hover::after { 
 	content: "Click to Edit"; 
 	background:#27ae60; 
 	font-size: 11px;
@@ -139,7 +139,7 @@ footer {clear:both; margin:5px 10px; padding:0;}
 	font-weight: 600;
 }
 
-[contenteditable="true"]:focus {background:#95a5a6; color: #ecf0f1;}
+[contenteditable="true"]:focus, .editor:focus {background:#95a5a6; color: #ecf0f1;}
 
 @media screen and (max-width:1200px){
 	.usabilityTestInfo .usabilityTestBackground {float:left; width:100%; margin-top:5px;}

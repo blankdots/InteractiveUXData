@@ -7,8 +7,8 @@ window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || 
 window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
 const DB_NAME     = 'personaDB';
-const DB_STORE    = 'personaStoreData';
-const DB_VERSION  = 2; 
+const DB_STORE    = 'personaData';
+const DB_VERSION  = 3; 
 
 
 if (!window.indexedDB) {
@@ -34,11 +34,13 @@ request.onupgradeneeded = function (event) {
     var objectStore = db.createObjectStore(DB_STORE, { keyPath: "projectTitle"});
     objectStore.createIndex("personaType", "personaType", { unique: false });
     objectStore.createIndex("avatar", "avatar", { unique: false });
-    objectStore.createIndex("name", "name", { unique: false });
+    objectStore.createIndex("firstName", "firstName", { unique: false });
+    objectStore.createIndex("lastName", "lastName", { unique: false });
     objectStore.createIndex("birthyear", "birthyear", { unique: false });
     objectStore.createIndex("gender", "gender", { unique: false });
     objectStore.createIndex("location", "location", { unique: false });
     objectStore.createIndex("work", "work", { unique: false });
+    objectStore.createIndex("job", "job", { unique: false });
     objectStore.createIndex("school", "school", { unique: false });
     objectStore.createIndex("techLevel", "techLevel", { unique: false });
     objectStore.createIndex("practicalGoals", "practicalGoals", { unique: false });
@@ -50,15 +52,17 @@ request.onupgradeneeded = function (event) {
     objectStore.createIndex("scenarios", "scenarios", { unique: false });
 };
 
-function addPersonasDB (projectTitle, personaType, name, birthyear, gender, location, job, school, techLevel, practicalGoals, businessGoals, personalGoals, frustrations, description, mainPoints, scenarios, avatar) {
+function addPersonasDB (projectTitle, personaType, firstName, lastName, birthyear, gender, location, workPlace, job, school, techLevel, practicalGoals, businessGoals, personalGoals, frustrations, description, mainPoints, scenarios, avatar) {
     console.log("persona arguments:", arguments);
     var obj = { 
       projectTitle: projectTitle, 
-      personaType: personaType, 
-      name: name, 
+      personaType: personaType,
+      firstName: firstName,
+      lastName: lastName, 
       birthyear: birthyear,
       gender: gender,
       location: location,
+      work: workPlace,
       job: job,
       school: school,
       techLevel: techLevel,
@@ -123,33 +127,27 @@ function clearPersonasDB(store_name) {
   }
 }
 
-var addData     = document.getElementById('addButton'),
-    clearData   = document.getElementById('clearButton'),
-    displayData = document.getElementById('displayButton');
-
-addData.addEventListener("click", addPersonaToLocalStore, false);
-clearData.addEventListener("click", clearPersonasDB, false);
-displayData.addEventListener("click", displayPersonaDB, false);
-
 function addPersonaToLocalStore (e) {
   console.log("add ...");
-  var projectTitle    = document.getElementById("projectTitle").textContent,
-      personaType     = document.getElementById("personaType").textContent,
-      name            = document.getElementById("name").textContent,
-      birthyear       = document.getElementById("birthyear").textContent,
-      gender          = document.getElementById("gender").textContent,
-      location        = document.getElementById("location").textContent,
-      school          = document.getElementById("location").textContent,
-      job             = document.getElementById("job").textContent,
-      techLevel       = document.getElementById("techLevel").textContent,
-      practicalGoals  = document.getElementById("practicalGoals").textContent,
-      businessGoals   = document.getElementById("businessGoals").textContent,
-      personalGoals   = document.getElementById("personalGoals").textContent,
-      frustrations    = document.getElementById("frustrations").textContent,
-      description     = document.getElementById("description").textContent,
-      mainPoints      = document.getElementById("mainPoints").textContent,
-      scenarios       = document.getElementById("scenarios").textContent,
-      avatar          = imageData; // see personaAvatar.js for the meaning of imageData variable
+  var projectTitleContent    = document.getElementById("projectTitle").textContent,
+      personaTypeContent     = document.getElementById("personaType").textContent,
+      firstNameContent       = document.getElementById("firstName").textContent,
+      lastNameContent        = document.getElementById("lastName").textContent,
+      birthyearContent       = document.getElementById("birthyear").textContent,
+      genderContent          = document.getElementById("gender").textContent,
+      locationContent        = document.getElementById("location").textContent,
+      schoolContent          = document.getElementById("location").textContent,
+      workPlaceContent       = document.getElementById("workPlace").textContent,
+      jobContent             = document.getElementById("job").textContent,
+      techLevelContent       = document.getElementById("techLevel").textContent,
+      practicalGoalsContent  = document.getElementById("practicalGoals").textContent,
+      businessGoalsContent   = document.getElementById("businessGoals").textContent,
+      personalGoalsContent   = document.getElementById("personalGoals").textContent,
+      frustrationsContent    = document.getElementById("frustrations").textContent,
+      descriptionContent     = document.getElementById("description").textContent,
+      mainPointsContent      = document.getElementById("mainPoints").textContent,
+      scenariosContent       = document.getElementById("scenarios").textContent,
+      avatarContent          = imageData; // see personaAvatar.js for the meaning of imageData variable
 
   if (birthyear != '') {
     // Better use Number.isInteger if the engine has EcmaScript 6
@@ -161,7 +159,7 @@ function addPersonaToLocalStore (e) {
   } else {
     birthyear = null;
   }
-  addPersonasDB(projectTitle, personaType, name, birthyear, gender, location, job, school, techLevel, practicalGoals, businessGoals, personalGoals, frustrations, description, mainPoints, scenarios, avatar);
+  addPersonasDB(projectTitleContent, personaTypeContent,firstNameContent, lastNameContent, birthyearContent, genderContent, locationContent, workPlaceContent, jobContent, schoolContent, techLevelContent, practicalGoalsContent, businessGoalsContent, personalGoalsContent, frustrationsContent, descriptionContent, mainPointsContent, scenariosContent, avatarContent);
 
 /*  if (document.getElementById("avatar").hasChildNodes()) {
     document.getElementById("avatar").removeChild(document.getElementById("avatar").firstChild);
@@ -220,7 +218,7 @@ function displayPersonaDB() {
 }
 
 function displayPersona (projectTitle, avatar) {
-  var dbContent   = document.getElementById('dbContent'),
+  var dbContent = document.getElementById('dbContent'),
       article = document.createElement("article"),
       h3 = document.createElement("h3"),
       a = document.createElement("a"),
@@ -324,3 +322,13 @@ function resetActionStatus() {
 function addEventListeners() {
   console.log("addEventListeners");
 }
+
+
+var  addData       = document.getElementById('addButton'),
+    clearData     = document.getElementById('clearButton'),
+    displayData   = document.getElementById('displayButton');
+
+
+addData.addEventListener("click", addPersonaToLocalStore, false);
+clearData.addEventListener("click", clearPersonasDB, false);
+displayData.addEventListener("click", displayPersonaDB, false);
