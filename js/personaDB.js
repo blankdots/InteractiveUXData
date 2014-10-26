@@ -103,7 +103,6 @@ function addPersonasDB (projectTitle, personaType, name, birthyear, gender, loca
       console.error("Add operation error", this.error);
       displayActionFailure(this.error);
     };
-    
 }
 
 function clearPersonasDB(store_name) {
@@ -119,6 +118,9 @@ function clearPersonasDB(store_name) {
     console.error("clearObjectStore:", evt.target.errorCode);
     displayActionFailure(this.error);
   };
+  while (document.getElementById('dbContent').firstChild) {
+    document.getElementById('dbContent').removeChild(document.getElementById('dbContent').firstChild);
+  }
 }
 
 var addData     = document.getElementById('addButton'),
