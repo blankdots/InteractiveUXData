@@ -203,7 +203,7 @@ function displayPersonaDB() {
       req.onsuccess = function (evt) {
         var value = evt.target.result;
         console.log(value);
-        displayPersona(value.projectTitle, value.avatar);
+        displayPersona(value.projectTitle, value.personaType, value.firstName, value.lastName, value.birthyear, value.gender, value.location, value.avatar);
       };
 
       // Move on to the next object in store
@@ -217,26 +217,39 @@ function displayPersonaDB() {
   };
 }
 
-function displayPersona (projectTitle, avatar) {
+function displayPersona (projectTitle, personaType, firstName, lastName, birthyear, gender, location, avatar) {
   var dbContent = document.getElementById('dbContent'),
       article = document.createElement("article"),
       h3 = document.createElement("h3"),
+      h4 = document.createElement("h4"),
+      ul = document.createElement("ul"),
       a = document.createElement("a"),
-      img = document.createElement("img");
+      img = document.createElement("img"),
+      list = [firstName + ' ' + lastName, birthyear, gender, location];
 
   dbContent.appendChild(article);
   article.appendChild(h3);
-  article.appendChild(a);
+  article.appendChild(h4);
   article.appendChild(img);
+  article.appendChild(ul);
+  article.appendChild(a);
+  for (var i = 0;  i <= list.length-1; i++) {
+    var li = document.createElement("li");
+    ul.appendChild(li);
+    li.textContent = list[i];
+    console.log(list[i]);
+  };
+
+  h4.textContent = personaType;
   h3.textContent = projectTitle;
-  a.textContent = projectTitle;
-  a.href = "#";
+  a.textContent = "Retrieve Data";
+  /*a.href = "#";*/
   a.id = projectTitle;
   if (avatar !== "") {
       img.src = avatar;
   }
   else {
-    article.removeChild(img);
+    /*article.removeChild(img);*/
   }
 
   //a.addEventListener("keypress", retrievePersona(projectTitle), false);
@@ -254,12 +267,14 @@ document.querySelector('#dbContent').addEventListener('click', function(event) {
   if (event.target.tagName.toLowerCase() === 'a') {
     retrievePersona(event.target.id);
   }
+  return false;
 });
 
 function retrievePersona (projectTitle) {
   var transaction = db.transaction([DB_STORE], "readonly"),
       objectStore = transaction.objectStore(DB_STORE),
       req         = objectStore.count(),
+      avatar      = document.getElementById('avatar')
       img         = document.createElement("img");
 
   // Requests are executed in the order in which they were made against the
@@ -286,12 +301,25 @@ function retrievePersona (projectTitle) {
       req.onsuccess = function (evt) {
         var value = evt.target.result;
         console.log(value);
-        document.getElementById("projectTitle").textContent = value.projectTitle + "ceva";
+        document.getElementById("projectTitle").textContent = value.projectTitle;
         console.log(value.avatar);
         if (value.avatar !== "") {
-          avatar.removeChild(avatar.firstChild);
+          while (avatar.firstChild) {
+            avatar.removeChild(avatar.firstChild);
+          }
+          var span = document.createElement("span");
+          avatar.appendChild(span);
+          span.textContent = "Drag and Drop photo.";
           avatar.appendChild(img);
           img.src = value.avatar;
+        }
+        else {
+          while (avatar.firstChild) {
+            avatar.removeChild(avatar.firstChild);
+          }
+          var span = document.createElement("span");
+          avatar.appendChild(span);
+          span.textContent = "Drag and Drop photo.";
         }
       };
 

@@ -27,7 +27,7 @@ nav#navControls {
 	z-index: 100;
 	border-bottom: solid 1px #2c3e50;
 }
-section {margin-top:51px;}
+section {margin:51px 0 0 0; width:50%; float:left; padding: 0;}
 header {padding:5px; background-color: #2c3e50; } 
 header h1 { margin:2px; padding:0; color: #DFECE6; font-size:1.8em;}
 article.usabilityTest {
@@ -35,7 +35,6 @@ article.usabilityTest {
 	border-right:solid 1px #493736; 
 	float:left; 
 	margin:0; 
-	width:50%; 
 }
 article.usabilityTestResults {
 	background-color: #fff; 
@@ -72,7 +71,7 @@ article.persona {
 	border-right:solid 1px #493736;
 	float:left; 
 	margin:0; 
-	width:50%; 
+
 }
 .personaInfo figure {margin:0; padding: 0;}
 .personaInfo {border-bottom:solid 1px #493736; padding:5px; overflow: hidden;}
@@ -141,6 +140,28 @@ footer {clear:both; margin:5px 10px; padding:0;}
 
 [contenteditable="true"]:focus, .editor:focus {background:#95a5a6; color: #ecf0f1;}
 
+section#dbContent article {
+	width: 100%; 
+	float:left;
+	background: #fff;
+	padding: 0;
+	position: relative;
+	border-bottom:solid 1px #2c3e50;
+}
+section#dbContent article img { 
+	border: 5px solid #bdc3c7; 
+	width: 100px; 
+	min-height: 100px;
+	-moz-border-radius: 50px; 
+	-webkit-border-radius: 50px; 
+	border-radius: 50px;
+	float:left;
+	overflow: hidden;
+	position: absolute;
+	right:20px;
+	top:5px;
+}
+
 @media screen and (max-width:1200px){
 	.usabilityTestInfo .usabilityTestBackground {float:left; width:100%; margin-top:5px;}
 }
@@ -194,6 +215,6 @@ footer {clear:both; margin:5px 10px; padding:0;}
 	-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;}
 	.personaDetails .detailsLeft {width:38%; float:left; margin-right:5px;}
 	.personaDetails .detailsRight {width:61%; float: right; }
-	.personaScenarios {border-bottom:solid 1px #493736;}
+	.personaScenarios {border-bottom:solid 1px #2c3e50;}
 }
 

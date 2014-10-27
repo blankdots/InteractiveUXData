@@ -30,7 +30,7 @@ editprojectTitle = new Medium({
 editpersonaType = new Medium({
     element: edit_personaType,
     mode: Medium.inlineMode ,
-    placeholder: 'Project Title',
+    placeholder: 'Persona Type',
     attributes: null,
 	tags: null
 });

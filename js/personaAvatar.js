@@ -1,8 +1,8 @@
 /* 
   Persona avatar upload by drag and drop 
 */
-var avatar      = document.getElementById('avatar');
-var imageData = '';
+var avatar      = document.getElementById('avatar'),
+    imageData   = '';
 
 if (typeof window.FileReader === 'undefined') {
   console.log('fail: No FileReader API here.');
