@@ -25,9 +25,31 @@ nav#navControls {
 	top:0;
 	width: 100%;
 	z-index: 100;
-	border-bottom: solid 1px #2c3e50;
+	overflow: hidden;
 }
-section {margin:51px 0 0 0; width:50%; float:left; padding: 0;}
+nav#navControls #tempControls {
+	float:left;
+}
+nav#navControls #databaseControls {
+	float:right;
+}
+nav#navControls #databaseControls button, nav#navControls #tempControls ul li{
+	float:right;
+	background: #2ecc71;
+	border:0;
+	height: 50px;
+	margin: 0 0 0 1px;
+	color: #ecf0f1;
+}
+nav#navControls #tempControls ul li {
+	float: left;
+	background: #3498db;
+}
+nav#navControls #databaseControls button:hover {
+	color: #fff;
+ 	background:#27ae60;
+ }
+section {margin:50px 0 0 0; width:50%; float:left; padding: 0;}
 header {padding:5px; background-color: #2c3e50; } 
 header h1 { margin:2px; padding:0; color: #DFECE6; font-size:1.8em;}
 article.usabilityTest {
@@ -70,8 +92,8 @@ article.persona {
 	background-color: #fff; 
 	border-right:solid 1px #493736;
 	float:left; 
-	margin:0; 
-
+	margin:0;
+	border-bottom:solid 1px #493736;
 }
 .personaInfo figure {margin:0; padding: 0;}
 .personaInfo {border-bottom:solid 1px #493736; padding:5px; overflow: hidden;}
@@ -111,6 +133,7 @@ article.persona {
 	-moz-border-radius: 75px; 
 	-webkit-border-radius: 75px; 
 	border-radius: 75px;
+	position: absolute;
 }
 #avatar span { margin:55px 30px 0; font-size: 14px; font-weight: bold; text-align: center; width: 90px; position: absolute;}
 progress { width: 100%; }

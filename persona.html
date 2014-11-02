@@ -13,9 +13,15 @@
 
 <body>
 <nav id="navControls">
-	<button id="addButton">add data</button>
-	<button id="clearButton">clear data</button>
-	<button id="displayButton">display data</button>
+	<div id="tempControls">
+		
+	</div>
+	<div id="databaseControls">
+		<button id="clearButton">Clear All</button>
+		<button id="displayButton">Display Personas</button>
+		<button id="addButton">Add Persona</button>	
+	</div>
+
 </nav>
 <section>
 	<article vocab="http://schema.org/" typeof="Persona" class="persona">
@@ -31,7 +37,7 @@
 				<h4>Name: <span property="givenName" class="editor" id="firstName">FirstName</span> <span property="familyName" class="editor" id="lastName">LastName</span></h4>
 					<h5>Background</h5>
 					<ul>
-						<li><strong>Date of Birth:</strong> <time property="birthDate" datetime="1990-10-23" class="editor" id="birthyear" class="editor">1990</time></li>
+						<li><strong>Date of Birth:</strong> <time property="birthDate" class="editor" id="birthyear" class="editor"></time></li>
 						<li><strong>Gender:</strong> <span property="gender" class="editor" id="gender" class="editor">Male/Female</span></li>
 						<li property="location" typeof="Place"><strong>Location:</strong> <span property="name" class="editor" id="location" class="editor">Iasi, Romania</span></li>
 						<li property="worksFor" typeof="Organization"><strong>Work place:</strong> <span property="name" id="workPlace" class="editor">Organization Name</span>, <span property="jobTitle" class="editor" id="job" class="editor">Engineer</span></li>

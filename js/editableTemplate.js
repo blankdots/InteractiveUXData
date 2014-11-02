@@ -17,7 +17,10 @@ var edit_projectTitle    = document.getElementById("projectTitle"),
   	edit_mainPoints      = document.getElementById("mainPoints"),
   	edit_scenarios       = document.getElementById("scenarios"),
   	edit_references		 = document.getElementById("references"),
-  	edit_other			 = document.getElementById("other");
+  	edit_other			 = document.getElementById("other"),
+  	currentTime 		 = new Date(),
+	year 				 = currentTime.getFullYear();
+
 
 editprojectTitle = new Medium({
     element: edit_projectTitle,
@@ -30,15 +33,75 @@ editprojectTitle = new Medium({
 editpersonaType = new Medium({
     element: edit_personaType,
     mode: Medium.inlineMode ,
-    placeholder: 'Persona Type',
+    placeholder: '',
     attributes: null,
 	tags: null
 });
 
+edit_personaType.addEventListener("focus", function () {
+    var tempControls = document.getElementById("tempControls"),
+        ul = document.createElement("ul"),
+        list= ["Primary", "Secondary", "Negative", "Supplemental", "Served", "Customer"];
+    
+    tempControls.appendChild(ul);
+
+    for (var i = 0;  i <= list.length-1; i++) {
+        var li = document.createElement("li");
+        ul.appendChild(li);
+        li.textContent = list[i];
+        li.id=list[i];
+    };
+    document.getElementById("Primary").onmousedown = function() {
+            editpersonaType.focus();
+            edit_personaType.textContent = "";
+            editpersonaType.insertHtml("Primary");
+            return false;
+    };
+    document.getElementById("Secondary").onmousedown = function() {
+            editpersonaType.focus();
+            edit_personaType.textContent = "";
+            editpersonaType.insertHtml("Secondary");
+            return false;
+    };
+    document.getElementById("Negative").onmousedown = function() {
+            editpersonaType.focus();
+            edit_personaType.textContent = "";
+            editpersonaType.insertHtml("Negative");
+            return false;
+    };
+    document.getElementById("Supplemental").onmousedown = function() {
+            editpersonaType.focus();
+            edit_personaType.textContent = "";
+            editpersonaType.insertHtml("Supplemental");
+            return false;
+    };
+    document.getElementById("Served").onmousedown = function() {
+            editpersonaType.focus();
+            edit_personaType.textContent = "";
+            editpersonaType.insertHtml("Served");
+            return false;
+    };
+    document.getElementById("Customer").onmousedown = function() {
+            editpersonaType.focus();
+            edit_personaType.textContent = "";
+            editpersonaType.insertHtml("Customer");
+            return false;
+    };
+}, false);
+
+edit_personaType.addEventListener("blur", function () {
+    var tempControls = document.getElementById("tempControls");
+    while (tempControls.firstChild) {
+            tempControls.removeChild(tempControls.firstChild);
+          }
+}, false);
+
+/**/
+
 editfirstName = new Medium({
     element: edit_firstName,
     mode: Medium.inlineMode ,
-    placeholder: 'Project Title',
+    placeholder: 'First Name',
     attributes: null,
 	tags: null
 });
@@ -46,7 +109,7 @@ editfirstName = new Medium({
 editlastName = new Medium({
     element: edit_lastName,
     mode: Medium.inlineMode ,
-    placeholder: 'Project Title',
+    placeholder: 'Last Name',
     attributes: null,
 	tags: null
 });
@@ -54,7 +117,7 @@ editlastName = new Medium({
 editbirthyear = new Medium({
     element: edit_birthyear,
     mode: Medium.inlineMode ,
-    placeholder: 'Project Title',
+    placeholder: year,
     attributes: null,
 	tags: null
 });
@@ -62,7 +125,7 @@ editbirthyear = new Medium({
 editgender = new Medium({
     element: edit_gender,
     mode: Medium.inlineMode ,
-    placeholder: 'Project Title',
+    placeholder: 'Male/Female',
     attributes: null,
 	tags: null
 });
@@ -70,7 +133,7 @@ editgender = new Medium({
 editlocation = new Medium({
     element: edit_location,
     mode: Medium.inlineMode ,
-    placeholder: 'Project Title',
+    placeholder: 'Location',
     attributes: null,
 	tags: null
 });
@@ -78,7 +141,7 @@ editlocation = new Medium({
 editschool = new Medium({
     element: edit_school,
     mode: Medium.inlineMode ,
-    placeholder: 'Project Title',
+    placeholder: 'School',
     attributes: null,
 	tags: null
 });
@@ -86,7 +149,7 @@ editschool = new Medium({
 editworkPlace = new Medium({
     element: edit_workPlace,
     mode: Medium.inlineMode ,
-    placeholder: 'Project Title',
+    placeholder: 'Work place',
     attributes: null,
 	tags: null
 });
@@ -94,7 +157,7 @@ editworkPlace = new Medium({
 editjob = new Medium({
     element: edit_job,
     mode: Medium.inlineMode ,
-    placeholder: 'Project Title',
+    placeholder: 'Job',
     attributes: null,
 	tags: null
 });
@@ -102,7 +165,7 @@ editjob = new Medium({
 edittechLevel = new Medium({
     element: edit_techLevel,
     mode: Medium.inlineMode ,
-    placeholder: 'Project Title',
+    placeholder: 'Technology Level',
     attributes: null,
 	tags: null
 });
@@ -178,13 +241,3 @@ editother = new Medium({
     attributes: null,
 	tags: null
 });
-
-/*document.getElementById('rich2-insert').onmousedown = function() {
-    article2Medium.focus();
-    article2Medium.insertHtml(
-'<p style="background-color: yellow;">\
-	Happy day!  I can work with buttons too!\
-</p>');
-
-    return false;
-};*/
