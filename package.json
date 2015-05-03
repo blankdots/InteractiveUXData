@@ -1,0 +1,31 @@
+{
+  "name": "InteractiveUXData",
+  "version": "0.0.1",
+  "description": "Interactive UserExperience Data application for collecting Personas and Usability data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blankdots/InteractiveUXData.git"
+  },
+  "keywords": [
+    "ux",
+    "semantic",
+    "web",
+    "user",
+    "centered",
+    "design"
+  ],
+  "author": "blankdots",
+  "license": "MIT",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/blankdots/InteractiveUXData/issues"
+  },
+  "homepage": "https://github.com/blankdots/InteractiveUXData",
+  "devDependencies": {
+    "grunt": "^0.4.5"
+  }
+}
